@@ -67,6 +67,8 @@ ipcMain.handle('load-voice-profile', async (event) => {
     console.error('Error loading voice profile:', err);
     return null;
   }
+});
+
 ipcMain.handle('ollama-request', async (event, { path, method, body }) => {
   try {
     // Standardize localhost to 127.0.0.1 to avoid IPv6 loopback resolution issues on Windows
