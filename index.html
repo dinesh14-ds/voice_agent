@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AU Voice Assistant – Powered by Whisper, Ollama & Gemini</title>
+  <meta name="description"
+    content="AU is an intelligent voice AI assistant powered by open-source Whisper speech recognition, Ollama, and Google Gemini AI." />
+</head>
+
+<body>
+  <div id="app">
+    <!-- Background Visualizer -->
+    <canvas id="visualizer"></canvas>
+
+    <!-- ── Left Panel: System Status ── -->
+    <div class="side-panel left-panel">
+      <div class="panel-title">SYSTEM STATUS</div>
+
+      <div class="status-indicator">
+        <div id="led-system" class="led active"></div>
+        <span>System: Online</span>
+      </div>
+      <div class="status-indicator">
+        <div id="led-vocal" class="led"></div>
+        <span>Vocal Input: IDLE</span>
+      </div>
+      <div class="status-indicator">
+        <div id="led-processing" class="led"></div>
+        <span id="engine-status-text">Neural Engine: Standby</span>
+      </div>
+      <div class="status-indicator">
+        <div id="led-model" class="led"></div>
+        <span id="model-status-text">Whisper: Loading...</span>
+      </div>
+      <div class="status-indicator">
+        <div id="led-search" class="led"></div>
+        <span id="search-status-text">Search: Standby</span>
+      </div>
+
+
+      <!-- Model Download Progress -->
+      <div id="model-progress" class="model-progress-wrapper" style="display:none;">
+        <div class="model-progress-track">
+          <div id="model-progress-bar" class="model-progress-bar"></div>
+        </div>
+      </div>
+
+      <!-- Language Select -->
+      <div class="section-label">LANGUAGE</div>
+      <div class="lang-selector">
+        <button id="lang-en" class="lang-btn active">EN</button>
+        <button id="lang-ta" class="lang-btn">தமிழ்</button>
+      </div>
+
+      <!-- Mode Switch -->
+      <div class="section-label">ENGINE</div>
+      <div class="lang-selector">
+        <button id="mode-switch" class="lang-btn mode-btn">MODE: WHISPER AI</button>
+      </div>
+
+      <!-- Neural Core -->
+      <div class="section-label">NEURAL CORE</div>
+      <div class="lang-selector">
+        <button id="core-gemini" class="lang-btn">GEMINI</button>
+        <button id="core-ollama" class="lang-btn active">OLLAMA</button>
+      </div>
+      <div id="ollama-config" class="ollama-config-area" style="margin-top: 8px; width: 100%;">
+        <select id="ollama-model-select" style="display:none; width: 100%; margin-top: 4px;"></select>
+        <input id="ollama-model-input" type="text" placeholder="Model (e.g. llama3)" value="llama3" autocomplete="off" spellcheck="false" />
+      </div>
+
+      <!-- Voice Security -->
+      <div class="section-label">VOICE SECURITY</div>
+      <div class="lang-selector" style="flex-direction: column; gap: 8px;">
+        <button id="register-voice-btn" class="lang-btn mode-btn" style="width: 100%;">REGISTER OWNER VOICE</button>
+        
+        <div class="status-indicator" style="width: 100%; margin-top: 4px;">
+          <div id="led-security" class="led"></div>
+          <span id="security-status-text">Profile: Unregistered</span>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 4px; padding: 4px 0;">
+          <span style="font-size: 0.75rem; letter-spacing: 1px; color: #a1b0cb;">VOICE LOCK:</span>
+          <button id="voice-lock-btn" class="lang-btn active" style="width: auto; padding: 2px 10px; font-size: 0.75rem;" disabled>OFF</button>
+        </div>
+      </div>
+
+      <!-- Diagnostics -->
+      <div class="section-label">DIAGNOSTICS</div>
+      <div class="lang-selector">
+        <button id="test-vocal" class="lang-btn">TEST VOCAL</button>
+      </div>
+
+      <div class="version-label">
+        MARK VII INTERFACE<br>VERSION 5.0.0 · WHISPER + OLLAMA + GEMINI
+      </div>
+    </div>
+
+    <!-- ── Centre: Hologram Core ── -->
+    <div class="jarvis-container">
+      <div class="core-outer"></div>
+      <div class="core-ring2"></div>
+      <div class="core-inner">
+        <!-- Dynamic Virtual Pet (Omni-AU) -->
+        <div id="cyber-pet" class="cyber-pet pet-idle">
+          <canvas id="cyber-pet-canvas" width="500" height="500"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right Panel: Dialogue ── -->
+    <div class="side-panel right-panel">
+      <div class="panel-title"
+        style="border-bottom: 1px solid rgba(0,210,255,0.3); padding-bottom: 8px; margin-bottom: 15px;">
+        COMMUNICATION LOG
+      </div>
+      <div id="dialogue-history" class="dialogue-history"></div>
+
+      <!-- Text Input -->
+      <div class="text-input-area">
+        <input id="text-input" type="text" placeholder="Type a message..." autocomplete="off" spellcheck="false" />
+        <button id="send-btn" title="Send">➤</button>
+      </div>
+    </div>
+
+    <!-- Control Button -->
+    <button id="voice-toggle" class="voice-toggle" disabled>LOADING MODEL...</button>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

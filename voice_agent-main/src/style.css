@@ -1,0 +1,1215 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;500;700&display=swap');
+
+/* ── CSS Variables ─────────────────────────────────────────────────── */
+:root {
+  --blue: #00d2ff;
+  --blue-glow: rgba(0, 210, 255, 0.6);
+  --blue-dim: rgba(0, 210, 255, 0.15);
+  --dark: #0a0a1a;
+  --panel-bg: rgba(8, 20, 40, 0.78);
+  --red: #ff3c00;
+  --green: #00ff9d;
+  --text-dim: rgba(255, 255, 255, 0.45);
+  font-family: 'Exo 2', sans-serif;
+}
+
+/* ── Reset & Base ──────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 50% 30%, #0d2a4a 0%, #050a14 70%);
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Central Hologram Core ─────────────────────────────────────────── */
+.jarvis-container {
+  position: relative;
+  width: 650px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.jarvis-container:hover {
+  transform: scale(1.08);
+}
+
+.core-outer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: all 0.5s ease;
+}
+
+.core-outer.processing {
+  animation-duration: 2s;
+}
+
+.core-ring2 {
+  position: absolute;
+  width: 88%;
+  height: 88%;
+  border-radius: 50%;
+  animation: rotate 8s linear infinite reverse;
+}
+
+.core-inner {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.jarvis-container:hover .core-inner {
+  background: none;
+}
+
+.core-center {
+  width: 38%;
+  height: 38%;
+  background: radial-gradient(circle, #7deeff, var(--blue));
+  border-radius: 50%;
+  box-shadow:
+    0 0 30px var(--blue),
+    0 0 70px rgba(0, 210, 255, 0.5);
+  animation: pulse 2.5s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.core-center.speaking {
+  background: radial-gradient(circle, #7dffce, var(--green));
+  box-shadow:
+    0 0 40px var(--green),
+    0 0 90px rgba(0, 255, 157, 0.5);
+  animation: pulse-fast 0.8s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-fast {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* ── Glassmorphism Side Panels ─────────────────────────────────────── */
+.side-panel {
+  position: absolute;
+  background: var(--panel-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 210, 255, 0.18);
+  border-radius: 16px;
+  padding: 20px;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.panel-title {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+
+.left-panel {
+  left: 24px;
+  top: 24px;
+  width: 240px;
+}
+
+.right-panel {
+  right: 24px;
+  bottom: 80px;
+  width: 320px;
+  max-height: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section-label {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+}
+
+/* ── Status LEDs ───────────────────────────────────────────────────── */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+  font-size: 0.68rem;
+}
+
+.led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2a2a3a;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.led.active {
+  background: var(--blue);
+  box-shadow: 0 0 8px var(--blue);
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+.led.loading {
+  background: #ffaa00;
+  box-shadow: 0 0 8px #ffaa00;
+  animation: blink 0.6s ease-in-out infinite;
+}
+
+.led.error {
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ── Model Progress Bar ────────────────────────────────────────────── */
+.model-progress-wrapper {
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.model-progress-track {
+  background: rgba(0, 210, 255, 0.1);
+  border-radius: 10px;
+  height: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 210, 255, 0.2);
+}
+
+.model-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* ── Dialogue History ──────────────────────────────────────────────── */
+.dialogue-history {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 210, 255, 0.3) transparent;
+}
+
+.dialogue-history::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dialogue-history::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.3);
+  border-radius: 4px;
+}
+
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-message-wrapper {
+  align-items: flex-end;
+}
+
+.au-message-wrapper {
+  align-items: flex-start;
+}
+
+.msg-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  opacity: 0.6;
+}
+
+.user-text {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px 12px 2px 12px;
+  padding: 8px 12px;
+  max-width: 90%;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.user-text .msg-label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.au-text {
+  background: rgba(0, 210, 255, 0.07);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 12px 12px 12px 2px;
+  padding: 8px 12px;
+  max-width: 95%;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--blue);
+}
+
+.au-text .msg-label {
+  color: var(--blue);
+}
+
+.au-text p,
+.user-text p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Typing Indicator ──────────────────────────────────────────────── */
+.typing-bubble {
+  padding: 10px 16px;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  height: 18px;
+}
+
+.typing-dots span {
+  width: 7px;
+  height: 7px;
+  background: var(--blue);
+  border-radius: 50%;
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-bounce {
+
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+
+  40% {
+    transform: translateY(-7px);
+    opacity: 1;
+  }
+}
+
+/* ── Text Input Area ───────────────────────────────────────────────── */
+.text-input-area {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 210, 255, 0.15);
+}
+
+#text-input {
+  flex: 1;
+  background: rgba(0, 210, 255, 0.05);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 20px;
+  padding: 8px 14px;
+  color: #fff;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.82rem;
+  text-transform: none;
+  letter-spacing: 0;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#text-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+#text-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
+#send-btn {
+  background: var(--blue-dim);
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+#send-btn:hover {
+  background: var(--blue);
+  color: var(--dark);
+  box-shadow: 0 0 12px var(--blue);
+}
+
+/* ── Language / Mode Buttons ───────────────────────────────────────── */
+.lang-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.lang-btn {
+  background: rgba(0, 210, 255, 0.07);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  color: var(--blue);
+  padding: 5px 11px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  border-radius: 5px;
+  transition: all 0.25s;
+  letter-spacing: 1px;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+  background: var(--blue);
+  color: var(--dark);
+  box-shadow: 0 0 10px var(--blue-glow);
+}
+
+.mode-btn {
+  font-size: 0.58rem;
+  padding: 6px 10px;
+  border-color: rgba(0, 255, 157, 0.5);
+  color: var(--green);
+  background: rgba(0, 255, 157, 0.05);
+}
+
+.mode-btn:hover {
+  background: var(--green);
+  color: var(--dark);
+  box-shadow: 0 0 12px rgba(0, 255, 157, 0.6);
+  border-color: var(--green);
+}
+
+.version-label {
+  margin-top: 20px;
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 1px;
+  line-height: 1.8;
+}
+
+/* ── Voice Toggle Button ───────────────────────────────────────────── */
+.voice-toggle {
+  position: absolute;
+  bottom: 28px;
+  background: transparent;
+  border: 2px solid var(--blue);
+  color: var(--blue);
+  padding: 14px 36px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.15);
+  z-index: 20;
+}
+
+.voice-toggle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: rgba(0, 210, 255, 0.3);
+  color: rgba(0, 210, 255, 0.4);
+  box-shadow: none;
+}
+
+.voice-toggle:not(:disabled):hover {
+  background: var(--blue);
+  color: var(--dark);
+  box-shadow: 0 0 40px var(--blue), 0 0 80px rgba(0, 210, 255, 0.35);
+  transform: translateY(-4px) scale(1.04);
+}
+
+.voice-toggle.listening {
+  border-color: var(--red);
+  color: var(--red);
+  animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 60, 0, 0.5);
+  }
+
+  70% {
+    box-shadow: 0 0 0 20px rgba(255, 60, 0, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 60, 0, 0);
+  }
+}
+
+/* ── Visualizer Canvas ─────────────────────────────────────────────── */
+#visualizer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .side-panel {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 92% !important;
+    max-width: 420px;
+    margin: 8px auto;
+  }
+
+  .left-panel {
+    order: 1;
+    margin-top: 16px;
+  }
+
+  .right-panel {
+    order: 3;
+    max-height: 260px;
+    margin-bottom: 90px;
+  }
+
+  .jarvis-container {
+    order: 2;
+    width: 200px;
+    height: 200px;
+    margin: 24px 0;
+  }
+
+  #visualizer {
+    width: 280px;
+    height: 280px;
+  }
+
+  .voice-toggle {
+    position: fixed;
+    bottom: 16px;
+    width: 82%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .voice-toggle:not(:disabled):hover {
+    transform: translateX(-50%) scale(1.03);
+  }
+
+  body {
+    overflow-y: auto;
+    height: auto;
+    padding-bottom: 90px;
+  }
+
+  #app {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+/* ── Google Search Source Citations ───────────────────────────────── */
+.sources-wrapper {
+  margin-top: 2px;
+}
+
+.sources-box {
+  background: rgba(0, 210, 255, 0.03);
+  border: 1px solid rgba(0, 210, 255, 0.15);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 95%;
+}
+
+.sources-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 1.5px;
+  color: rgba(0, 255, 157, 0.7);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.source-link {
+  display: block;
+  color: rgba(0, 210, 255, 0.75);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.76rem;
+  text-transform: none;
+  letter-spacing: 0;
+  text-decoration: none;
+  padding: 3px 8px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left: 2px solid rgba(0, 210, 255, 0.2);
+}
+
+.source-link:hover {
+  color: var(--blue);
+  background: rgba(0, 210, 255, 0.1);
+  border-left-color: var(--blue);
+}
+
+/* Search LED — glows green when Google Search is used */
+#led-search.active {
+  background: var(--green) !important;
+  box-shadow: 0 0 8px var(--green) !important;
+  animation: blink 0.8s ease-in-out infinite;
+}
+
+#led-search.loading {
+  background: #ffaa00 !important;
+  box-shadow: 0 0 8px #ffaa00 !important;
+  animation: blink 0.4s ease-in-out infinite;
+}
+
+/* ── Ollama Config Styles ─────────────────────────────────────────── */
+.ollama-config-area {
+  transition: all 0.3s ease;
+}
+
+#ollama-model-input {
+  width: 100%;
+  background: rgba(0, 210, 255, 0.05);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  text-transform: none;
+  letter-spacing: 1px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#ollama-model-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
+/* ── Cyber Virtual Pet (Omni-AU) Styles ────────────────────────────── */
+.cyber-pet {
+  width: 650px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+  animation: pet-float 3.5s ease-in-out infinite;
+  transition: all 0.5s ease;
+}
+
+#cyber-pet-canvas {
+  width: 280px;
+  height: 280px;
+  display: block;
+  z-index: 6;
+  transition: filter 0.5s ease;
+}
+
+.pet-idle #cyber-pet-canvas {
+  filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.35));
+}
+
+.pet-listening #cyber-pet-canvas {
+  filter: drop-shadow(0 0 30px rgba(255, 60, 0, 0.5));
+}
+
+.pet-processing #cyber-pet-canvas {
+  filter: drop-shadow(0 0 30px rgba(255, 170, 0, 0.5));
+}
+
+.pet-speaking #cyber-pet-canvas {
+  filter: drop-shadow(0 0 35px rgba(0, 255, 157, 0.65));
+}
+
+/* Base Parts Styling */
+.pet-head,
+.pet-torso {
+  fill: #061124;
+  stroke: var(--blue);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(0, 210, 255, 0.3));
+  transition: all 0.5s;
+}
+
+.pet-neck {
+  fill: #0c1c38;
+  stroke: rgba(0, 210, 255, 0.35);
+  stroke-width: 1.5;
+  transition: all 0.5s;
+}
+
+.pet-arm-joint,
+.pet-leg-joint {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  transition: all 0.5s;
+}
+
+.pet-limb {
+  fill: #081a33;
+  stroke: var(--blue);
+  stroke-width: 1.8;
+  transition: all 0.5s;
+}
+
+.pet-core {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px var(--blue));
+  transition: all 0.5s;
+}
+
+.pet-core-inner {
+  fill: var(--blue);
+  filter: drop-shadow(0 0 3px var(--blue));
+  transition: all 0.5s;
+}
+
+/* Humanoid Limb Group Animations */
+.pet-head-group {
+  transform-origin: 108px 36px;
+  animation: pet-head-breath 4s ease-in-out infinite alternate;
+}
+
+.pet-arm-left-group {
+  transform-origin: 90px 54px;
+  animation: pet-arm-left-swing 5s ease-in-out infinite alternate;
+}
+
+.pet-arm-right-group {
+  transform-origin: 126px 54px;
+  animation: pet-arm-right-swing 5s ease-in-out infinite alternate;
+}
+
+.pet-legs {
+  transform-origin: 108px 68px;
+  animation: pet-legs-sway 4s ease-in-out infinite alternate;
+}
+
+.pet-visor {
+  fill: #020710;
+  stroke: rgba(0, 210, 255, 0.3);
+  stroke-width: 1.5;
+  transition: all 0.5s;
+}
+
+.pet-eye {
+  fill: var(--blue);
+  filter: drop-shadow(0 0 4px var(--blue));
+  transform-origin: center;
+  animation: pet-eye-blink 4.5s infinite;
+  transition: fill 0.5s, filter 0.5s;
+}
+
+.pet-eye-left {
+  transform-origin: 43px 48px;
+}
+
+.pet-eye-right {
+  transform-origin: 57px 48px;
+}
+
+.pet-ear {
+  fill: #081a33;
+  stroke: var(--blue);
+  stroke-width: 1.8;
+  transform-origin: 50% 50%;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pet-ear-left {
+  animation: pet-ear-left-twitch 6s infinite;
+}
+
+.pet-ear-right {
+  animation: pet-ear-right-twitch 6s infinite 0.5s;
+}
+
+.pet-infinity-loop {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 3.5;
+  stroke-dasharray: 12 8;
+  animation: pet-infinity-flow 4s linear infinite;
+  transition: stroke 0.5s, stroke-width 0.5s, filter 0.5s;
+  filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.45));
+}
+
+.pet-shadow {
+  fill: rgba(0, 210, 255, 0.15);
+  filter: blur(2px);
+  animation: pet-shadow-pulse 3.5s ease-in-out infinite;
+  transition: fill 0.5s;
+}
+
+.pet-mouth {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.2;
+  transition: all 0.3s;
+}
+
+/* ── STATE: IDLE (Blue theme) ── */
+.pet-idle .pet-head,
+.pet-idle .pet-torso,
+.pet-idle .pet-neck,
+.pet-idle .pet-arm-joint,
+.pet-idle .pet-leg-joint,
+.pet-idle .pet-limb,
+.pet-idle .pet-core {
+  stroke: var(--blue);
+}
+.pet-idle .pet-core-inner {
+  fill: var(--blue);
+  filter: drop-shadow(0 0 3px var(--blue));
+}
+.pet-idle .pet-eye {
+  fill: var(--blue);
+  filter: drop-shadow(0 0 5px var(--blue));
+}
+.pet-idle .pet-shadow {
+  fill: rgba(0, 210, 255, 0.15);
+}
+
+/* ── STATE: LISTENING (Red/Amber Active) ── */
+.pet-listening {
+  animation: pet-float-active 1.8s ease-in-out infinite;
+}
+
+.pet-listening .pet-head,
+.pet-listening .pet-torso,
+.pet-listening .pet-neck,
+.pet-listening .pet-arm-joint,
+.pet-listening .pet-leg-joint,
+.pet-listening .pet-limb,
+.pet-listening .pet-core {
+  stroke: var(--red);
+  filter: drop-shadow(0 0 6px rgba(255, 60, 0, 0.4));
+}
+
+.pet-listening .pet-core-inner {
+  fill: var(--red);
+  filter: drop-shadow(0 0 4px var(--red));
+}
+
+.pet-listening .pet-visor {
+  stroke: rgba(255, 60, 0, 0.5);
+  fill: rgba(20, 5, 0, 0.8);
+}
+
+.pet-listening .pet-eye {
+  fill: var(--red);
+  filter: drop-shadow(0 0 6px var(--red));
+  animation: pet-eye-focus 0.5s forwards;
+}
+
+.pet-listening .pet-ear-left {
+  transform: translate(-2px, 1px) rotate(-8deg);
+}
+
+.pet-listening .pet-ear-right {
+  transform: translate(2px, 1px) rotate(8deg);
+}
+
+.pet-listening .pet-infinity-loop {
+  stroke: var(--blue);
+  stroke-width: 4.5;
+  filter: drop-shadow(0 0 14px rgba(0, 210, 255, 0.8));
+  animation-duration: 1.5s;
+}
+
+.pet-listening .pet-shadow {
+  fill: rgba(255, 60, 0, 0.2);
+}
+
+/* ── STATE: PROCESSING (Yellow/Scanning Brain) ── */
+.pet-processing {
+  animation: pet-float-active 1.2s ease-in-out infinite;
+}
+
+.pet-processing .pet-head,
+.pet-processing .pet-torso,
+.pet-processing .pet-neck,
+.pet-processing .pet-arm-joint,
+.pet-processing .pet-leg-joint,
+.pet-processing .pet-limb,
+.pet-processing .pet-core {
+  stroke: #ffaa00;
+  filter: drop-shadow(0 0 6px rgba(255, 170, 0, 0.4));
+}
+
+.pet-processing .pet-core-inner {
+  fill: #ffaa00;
+  filter: drop-shadow(0 0 4px #ffaa00);
+}
+
+.pet-processing .pet-visor {
+  stroke: rgba(255, 170, 0, 0.5);
+}
+
+.pet-processing .pet-eye {
+  fill: #ffaa00;
+  filter: drop-shadow(0 0 6px #ffaa00);
+  animation: pet-eye-scan 0.8s ease-in-out infinite alternate;
+}
+
+.pet-processing .pet-ear-left {
+  transform: translate(1px, -2px) rotate(5deg);
+}
+
+.pet-processing .pet-ear-right {
+  transform: translate(-1px, -2px) rotate(-5deg);
+}
+
+.pet-processing .pet-infinity-loop {
+  stroke: var(--blue);
+  stroke-width: 4.5;
+  filter: drop-shadow(0 0 14px rgba(0, 210, 255, 0.8));
+  animation-duration: 0.6s;
+}
+
+.pet-processing .pet-shadow {
+  fill: rgba(255, 170, 0, 0.2);
+}
+
+/* ── STATE: SPEAKING (Green Active Core) ── */
+.pet-speaking {
+  animation: pet-float-active 2.5s ease-in-out infinite;
+}
+
+.pet-speaking .pet-head,
+.pet-speaking .pet-torso,
+.pet-speaking .pet-neck,
+.pet-speaking .pet-arm-joint,
+.pet-speaking .pet-leg-joint,
+.pet-speaking .pet-limb,
+.pet-speaking .pet-core {
+  stroke: var(--green);
+  filter: drop-shadow(0 0 10px rgba(0, 255, 157, 0.5));
+}
+
+.pet-speaking .pet-core-inner {
+  fill: var(--green);
+  filter: drop-shadow(0 0 6px var(--green));
+}
+
+.pet-speaking .pet-visor {
+  stroke: rgba(0, 255, 157, 0.4);
+  fill: rgba(0, 15, 8, 0.8);
+}
+
+.pet-speaking .pet-eye {
+  fill: var(--green);
+  filter: drop-shadow(0 0 8px var(--green));
+  animation: pet-eye-speak-bounce 0.6s infinite alternate;
+}
+
+.pet-speaking .pet-ear-left {
+  transform: translate(-1px, -1px) rotate(-3deg);
+}
+
+.pet-speaking .pet-ear-right {
+  transform: translate(1px, -1px) rotate(3deg);
+}
+
+.pet-speaking .pet-infinity-loop {
+  stroke: var(--blue);
+  stroke-width: 4.5;
+  filter: drop-shadow(0 0 16px rgba(0, 210, 255, 0.85));
+  animation-duration: 2.2s;
+}
+
+.pet-speaking .pet-shadow {
+  fill: rgba(0, 255, 157, 0.25);
+}
+
+.pet-speaking .pet-mouth {
+  stroke: var(--green);
+  opacity: 0.95;
+  filter: drop-shadow(0 0 4px var(--green));
+  stroke-dasharray: 20;
+  animation: pet-talk-wave 0.25s linear infinite alternate;
+}
+
+/* ── Keyframe Animations ───────────────────────────────────────────── */
+@keyframes pet-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pet-float-active {
+  0%, 100% {
+    transform: translateY(0) scale(1.02);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.04);
+  }
+}
+
+@keyframes pet-shadow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+}
+
+@keyframes pet-eye-blink {
+  0%, 94%, 98%, 100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes pet-eye-focus {
+  to {
+    transform: scale(0.9);
+  }
+}
+
+@keyframes pet-eye-scan {
+  0% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes pet-eye-speak-bounce {
+  0% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(1.2) scaleX(0.95);
+  }
+}
+
+@keyframes pet-ear-left-twitch {
+  0%, 88%, 92%, 100% {
+    transform: rotate(0);
+  }
+  90% {
+    transform: rotate(-5deg) translateY(-1px);
+  }
+}
+
+@keyframes pet-ear-right-twitch {
+  0%, 88%, 92%, 100% {
+    transform: rotate(0);
+  }
+  90% {
+    transform: rotate(5deg) translateY(-1px);
+  }
+}
+
+@keyframes pet-ring-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pet-talk-wave {
+  0% {
+    stroke-dashoffset: 0;
+    transform: scaleY(0.7) translateY(1.5px);
+  }
+  100% {
+    stroke-dashoffset: 8;
+    transform: scaleY(1.3) translateY(-1.5px);
+    transform-origin: center;
+  }
+}
+
+@keyframes pet-infinity-flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@keyframes pet-head-breath {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes pet-arm-left-swing {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes pet-arm-right-swing {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes pet-legs-sway {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes pet-core-pulse {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.92);
+    transform-origin: 50px 58px;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.08);
+    transform-origin: 50px 58px;
+  }
+}

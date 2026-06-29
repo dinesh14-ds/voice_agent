@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-Command ollama *)",
+      "Bash(Select-Object Source)"
+    ]
+  }
+}
